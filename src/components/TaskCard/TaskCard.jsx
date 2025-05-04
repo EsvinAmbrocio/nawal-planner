@@ -1,6 +1,11 @@
 import { Button,  Card } from 'react-bootstrap';
-
-export function TaskCard({ className}) {
+import { removeTodo } from '../../features/todo/todoSlice';
+import { useDispatch } from 'react-redux';
+export function TaskCard({ className, todo={}}) {
+  const dispatch = useDispatch()
+  const handleRemoveTask = () => {
+    dispatch(removeTodo(todo.id))
+  }
   return (
     <Card className={className}>
       <Card.Body>
@@ -9,23 +14,23 @@ export function TaskCard({ className}) {
             <span className='fw-bold d-block'>
               Name:
             </span>
-            Lorem ipsum dolor
+            { todo.name }
           </p>
           <p>
             <span className='fw-bold d-block'>
               Description:
             </span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.
+            {todo.description}
           </p>
           <p>
             <span className='fw-bold'>
               Due Date:
             </span>
-            2023-10-10
+            {todo.dueDate}
           </p>
         </Card.Text>
         <div className='d-grid'>
-          <Button>
+          <Button onClick={handleRemoveTask} variant="danger">
             Remover
           </Button>
         </div>

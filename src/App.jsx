@@ -6,13 +6,14 @@ import { Button, Container, Row, Col, Modal } from 'react-bootstrap';
 import { NavBar } from './components/NavBar/NavBar';
 import { TaskForm } from './components/TaskForm/TaskForm';
 import { TaskCard } from './components/TaskCard/TaskCard';
+import { useSelector } from 'react-redux';
 function App() {
   const [count, setCount] = useState(0)
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const todos = useSelector((state) => state.todos.value)
   return (
     <>
       <NavBar />
@@ -26,14 +27,11 @@ function App() {
           </Col>
           <Col sm={12} md={6}>
             <div  data-bs-spy="scroll" data-bs-smooth-scroll="true" className="my-3 scrolling-list-tasks" tabIndex="0">
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
-              <TaskCard className='mb-3'></TaskCard>
+              {
+                todos.map((todo) => (
+                  <TaskCard key={todo.id} className='mb-3' todo={todo} />
+                ))
+              }
             </div>
           </Col>
         </Row>
