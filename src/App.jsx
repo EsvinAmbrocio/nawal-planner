@@ -8,7 +8,7 @@ import { TaskForm } from './components/TaskForm/TaskForm';
 import { TaskCard } from './components/TaskCard/TaskCard';
 import { useSelector } from 'react-redux';
 function App() {
-  const [count, setCount] = useState(0)
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
