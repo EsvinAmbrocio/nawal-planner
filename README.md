@@ -40,6 +40,7 @@ Ejecuta el siguiente comando:
 ```bash
 docker run --rm -it -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm install
 docker run --rm -it -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm run dev
+docker run --rm -it --network host -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm run dev
 ```
 
 La aplicación estará disponible en:  
