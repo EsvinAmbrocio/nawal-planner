@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../../features/todo/todoSlice';
+import { addGoal } from '../../features/goal/goalSlice';
+import { OPTIONS_VALUES } from '../../features/option/optionSlice';
 
 export function TaskForm({className}) {
   const inputRefName = useRef()
@@ -9,24 +11,31 @@ export function TaskForm({className}) {
   const inputRefDueDate = useRef()
 
   const dispatch = useDispatch()
+  const option = useSelector((state) => state.options.value);
+
+  const legendText = option === OPTIONS_VALUES.TASKS ? 'Task' : 'Goal';
+  const buttonText = option === OPTIONS_VALUES.TASKS ? 'ADD TASK' : 'ADD GOAL';
 
   const hadleAddTask = (e) => {
-    e.preventDefault()
-    const task = {
-      id: Date.now(),
+    e.preventDefault();
+    const item = {
       name: inputRefName.current.value,
       description: inputRefDescription.current.value,
       dueDate: inputRefDueDate.current.value
+    };
+    if (option === OPTIONS_VALUES.TASKS) {
+      dispatch(addTodo(item));
+    } else if (option === OPTIONS_VALUES.GOALS) {
+      dispatch(addGoal(item));
     }
-    dispatch(addTodo(task))
-    inputRefName.current.value = ''
-    inputRefDescription.current.value = ''
-    inputRefDueDate.current.value = ''
+    inputRefName.current.value = '';
+    inputRefDescription.current.value = '';
+    inputRefDueDate.current.value = '';
   }
   return (
     <Form className={className} onSubmit={hadleAddTask}>
       <fieldset className='w-100'>
-        <legend>Task</legend>
+        <legend>{legendText}</legend>
         <Form.Group className="mb-3" controlId="formTaskName">
           <Form.Label>Name</Form.Label>
           <Form.Control type="text" placeholder="Enter task name"  ref={inputRefName}/>
@@ -40,7 +49,7 @@ export function TaskForm({className}) {
           <Form.Control type="date" placeholder="Enter task due date" ref={inputRefDueDate} />
         </Form.Group>
         <div className='d-flex justify-content-center'>
-          <Button onClick={hadleAddTask}>ADD GOAL</Button>
+          <Button onClick={hadleAddTask}>{buttonText}</Button>
         </div>
       </fieldset>
     </Form>

@@ -18,6 +18,17 @@ graph TD
 
 ## Instalación
 
+### Variables de entorno
+
+Copia el archivo `.env.example` a `.env` y configura las variables según tu entorno:
+
+```bash
+cp .env.example .env
+```
+
+- `VITE_API_URL`: URL base del backend (ejemplo: http://localhost:3000)
+- `VITE_API_TOKEN`: Token de autenticación Bearer (si aplica)
+
 ### Método tradicional  
 1. Clonar repositorio:
 ```bash
@@ -40,6 +51,7 @@ Ejecuta el siguiente comando:
 ```bash
 docker run --rm -it -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm install
 docker run --rm -it -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm run dev
+docker run --rm -it --network host -p 5173:5173 -v ${PWD}:/app -w /app node:22.15-alpine npm run dev
 ```
 
 La aplicación estará disponible en:  
@@ -51,11 +63,30 @@ La aplicación estará disponible en:
 src/
 ├── App.scss            # Estilos con energía nawal
 ├── App.jsx             # Componente raíz
+├── api/                # Cliente API centralizado
+│   ├── ApiClient.js    # Clase ApiClient
+│   └── index.js        # Instancia global de ApiClient
 ├── components/
-│   ├── NavBar/         # Barra de navegación sagrada
-│   ├── TaskForm/       # Formulario de creación
-│   └── TaskCard/       # Representación de tareas
+│   ├── NavBar/         # Barra de navegación
+│   ├── TaskForm/       # Formulario de creación/edición
+│   ├── TaskCard/       # Tarjeta de tarea/meta
+│   └── TaskList/       # (Reservado para futuras listas)
+├── features/
+│   ├── goal/           # Redux slice para metas
+│   ├── option/         # Redux slice para opción seleccionada
+│   └── todo/           # Redux slice para tareas
+├── hooks/              # Custom hooks (useFetchByOption)
+├── types/              # Tipos y utilidades
+└── app/                # Configuración de store redux
 ```
+
+## Características principales
+
+- **API centralizada** con autenticación Bearer opcional
+- **Redux Toolkit** para manejo de estado de tareas, metas y opción seleccionada
+- **Sincronización automática** entre menú y datos mostrados
+- **Soporte para endpoints dinámicos** según la opción seleccionada
+- **Estilos modernos** con Bootstrap y SCSS
 
 ---
 

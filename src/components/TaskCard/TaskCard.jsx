@@ -1,11 +1,18 @@
 import { Button,  Card } from 'react-bootstrap';
 import { removeTodo } from '../../features/todo/todoSlice';
-import { useDispatch } from 'react-redux';
+import { removeGoal } from '../../features/goal/goalSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { OPTIONS_VALUES } from '../../features/option/optionSlice';
 export function TaskCard({ className, todo={}}) {
-  const dispatch = useDispatch()
-  const handleRemoveTask = () => {
-    dispatch(removeTodo(todo.id))
-  }
+  const dispatch = useDispatch();
+  const option = useSelector((state) => state.options.value);
+  const handleRemove = () => {
+    if (option === OPTIONS_VALUES.TASKS) {
+      dispatch(removeTodo(todo._id));
+    } else if (option ===  OPTIONS_VALUES.GOALS) {
+      dispatch(removeGoal(todo._id));
+    }
+  };
   return (
     <Card className={className}>
       <Card.Body>
@@ -30,7 +37,7 @@ export function TaskCard({ className, todo={}}) {
           </p>
         </Card.Text>
         <div className='d-grid'>
-          <Button onClick={handleRemoveTask} variant="danger">
+          <Button onClick={handleRemove} variant="danger">
             Remover
           </Button>
         </div>
